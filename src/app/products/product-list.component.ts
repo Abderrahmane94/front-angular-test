@@ -29,7 +29,7 @@ export class ProductListComponent implements OnInit{
       "releaseDate": "1- March 18, 2021",
       "description": "1- 15 description",
       "price": 14.25,
-      "starRating": 4.2,
+      "starRating": 4,
       "imageUrl": "assets/images/1.png"
     },
     {
@@ -52,7 +52,7 @@ export class ProductListComponent implements OnInit{
     );
   }
 
-  toggleImage() : void {
+  toggleImage(): void {
     this.showImage = !this.showImage;
   }
 
@@ -62,5 +62,7 @@ export class ProductListComponent implements OnInit{
   }
 
 
-
+  onRatingClicked(message: any): void {
+    this.pageTitle = 'Product List: ' + message;
+  }
 }
