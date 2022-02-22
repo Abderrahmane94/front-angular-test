@@ -12,7 +12,15 @@ export class ProductListComponent implements OnInit{
   imageWidth = 50;
   imageMargin = 2;
   showImage: boolean = false;
-  listFilter = "cart";
+  private _listFilter = '';
+  get listFilter(): string {
+    return this._listFilter;
+  }
+  set listFilter(value: string) {
+    this._listFilter = value;
+    this.filtredProducts = this.performFilter(value);
+  }
+
   products: IProduct[] = [
     {
       "productId": 1,
@@ -26,7 +34,7 @@ export class ProductListComponent implements OnInit{
     },
     {
       "productId": 2,
-      "productName": "2- Garden Cart",
+      "productName": "2- Garden bus",
       "productCode": "-GDN-0023",
       "releaseDate": "2- March 18, 2021",
       "description": "2- 15 description",
@@ -35,6 +43,14 @@ export class ProductListComponent implements OnInit{
       "imageUrl": "assets/images/2.png"
     }
   ];
+  filtredProducts: IProduct[] = this.products;
+
+  performFilter(filterBy: string) : IProduct[] {
+    filterBy = filterBy.toLocaleLowerCase();
+    return this.products.filter((product:IProduct ) =>
+    product.productName.toLocaleLowerCase().includes(filterBy)
+    );
+  }
 
   toggleImage() : void {
     this.showImage = !this.showImage;
