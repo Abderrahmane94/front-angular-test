@@ -1,54 +1,42 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, OnDestroy, OnInit} from "@angular/core";
 import {IProduct} from "./product";
+import {Subscription} from "rxjs";
+import {ProductService} from "./product.service";
 
 @Component({
-  selector : 'pm-products',
   templateUrl: './product-list.component.html',
   styleUrls: ["./product-list.component.css"]
 })
 
-export class ProductListComponent implements OnInit{
+export class ProductListComponent implements OnInit, OnDestroy {
   pageTitle = 'Product List';
   imageWidth = 50;
   imageMargin = 2;
   showImage: boolean = false;
+  errorMessage: string = '';
+  sub!: Subscription;
+
   private _listFilter = '';
   get listFilter(): string {
     return this._listFilter;
   }
+
   set listFilter(value: string) {
     this._listFilter = value;
-    this.filtredProducts = this.performFilter(value);
+    this.filteredProducts = this.performFilter(value);
   }
 
-  products: IProduct[] = [
-    {
-      "productId": 1,
-      "productName": "1- Garden Cart",
-      "productCode": "-GDN-0023",
-      "releaseDate": "1- March 18, 2021",
-      "description": "1- 15 description",
-      "price": 14.25,
-      "starRating": 4,
-      "imageUrl": "assets/images/1.png"
-    },
-    {
-      "productId": 2,
-      "productName": "2- Garden bus",
-      "productCode": "-GDN-0023",
-      "releaseDate": "2- March 18, 2021",
-      "description": "2- 15 description",
-      "price": 19.00,
-      "starRating": 1.5,
-      "imageUrl": "assets/images/2.png"
-    }
-  ];
-  filtredProducts: IProduct[] = this.products;
+  filteredProducts: IProduct[] = [];
+  products: IProduct[] = [];
 
-  performFilter(filterBy: string) : IProduct[] {
+
+  constructor(private productService: ProductService) {
+  }
+
+  performFilter(filterBy: string): IProduct[] {
     filterBy = filterBy.toLocaleLowerCase();
-    return this.products.filter((product:IProduct ) =>
-    product.productName.toLocaleLowerCase().includes(filterBy)
+    return this.products.filter((product: IProduct) =>
+      product.productName.toLocaleLowerCase().includes(filterBy)
     );
   }
 
@@ -57,10 +45,18 @@ export class ProductListComponent implements OnInit{
   }
 
   ngOnInit(): void {
-
-    console.log('coucou from onInit');
+    this.sub = this.productService.getProducts().subscribe({
+      next: products => {
+        this.products = products;
+        this.filteredProducts = this.products;
+      },
+      error: err => this.errorMessage = err
+    });
   }
 
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
+  }
 
   onRatingClicked(message: any): void {
     this.pageTitle = 'Product List: ' + message;
