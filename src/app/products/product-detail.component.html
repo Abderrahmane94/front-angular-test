@@ -2,4 +2,19 @@
   <div class="card-header">
     {{pageTitle}}
   </div>
+  <div class="card-body">
+    <p><b>Product Name:</b> {{product?.productName}}</p>
+    <p><b>Product Code:</b> {{product?.productCode}}</p>
+    <p><b>Release Date:</b> {{product?.releaseDate}}</p>
+    <p><b>Description:</b> {{product?.description}}</p>
+    <p><b>Price:</b> {{product?.price}}</p>
+    <p><b>Star Rating:</b>  {{product?.starRating}}</p>
+  </div>
+  <div class="card-footer">
+    <button class="btn btn-outline-secondary"
+            style="width: 80px"
+            (click)="onback()">
+      <i class="fa fa-chevron-left"></i> Back
+    </button>
+  </div>
 </div>

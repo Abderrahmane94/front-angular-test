@@ -1,19 +1,19 @@
 import {Component} from '@angular/core';
 
+
 @Component({
   selector: 'app-root',
   template: `
-    <nav class="navbar navbar-expand navbar-light bg-light">
-      <a class="navbar-brand m-2"> {{pageTitle}}</a>
-      <ul class="nav nav-pills">
-        <li><a class="nav-link" routerLink="/welcome">Home</a></li>
-        <li><a class="nav-link" routerLink="/products">Product List</a></li>
-      </ul>
-    </nav>
+    <mat-toolbar class="mat-elevation-z6" color="primary">
+      <span>{{pageTitle}}</span>
+      <a mat-button routerLink="/welcome">Home</a>
+      <a mat-raised-button color="warn" routerLink="/products">Product List</a>
+    </mat-toolbar>
     <div class="container m-5">
       <router-outlet></router-outlet>
     </div>
-  `
+  `,
+  styleUrls: ["./app.component.css"]
 })
 export class AppComponent {
   pageTitle = 'Product management APP';
