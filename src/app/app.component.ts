@@ -8,6 +8,7 @@ import {Component} from '@angular/core';
       <span>{{pageTitle}}</span>
       <a mat-button routerLink="/welcome">Home</a>
       <a mat-raised-button color="warn" routerLink="/products">Product List</a>
+      <a mat-raised-button color="accent" class="m-2" routerLink="/register">Register</a>
     </mat-toolbar>
     <div class="container m-5">
       <router-outlet></router-outlet>
